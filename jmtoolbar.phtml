@@ -1,0 +1,307 @@
+<?php
+/*!
+ * Theme Name: JM Team
+ * Theme URI: http://www.joomlart.com
+ * Version: 1.0
+ * Description: 
+ * Author: JM Team - Joomlart.com
+ * Author URI: http://www.joomlart.com
+ * 
+ * Powered by Magento
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Template for Mage_Page_Block_Html
+ */
+?>
+<div class="main">
+	<div class="inner clearfix">	
+		<!-- BEGIN: MY CART-->
+		<div id="jm-mycart" class="has-toggle">
+			<div class="jmajmxloading">&nbsp;</div> 
+			<div class="btn-toggle mycart-toggle">
+				<i class="fa fa-shopping-cart"></i>
+				<span>	
+				<?php if(Mage::getSingleton('checkout/session')->getQuote()->getItemsSummaryQty() > 1) { 
+					echo '<a class="gotocart" data-item="'.$this->__('item').'" data-items="'.$this->__('items').'" href="'.Mage::getUrl("checkout/cart").'">'.Mage::getSingleton('checkout/session')->getQuote()->getItemsSummaryQty().' <span>items</span></a>';
+				} else {
+					echo '<a class="gotocart" data-item="'.$this->__('item').'" data-items="'.$this->__('items').'" href="'.Mage::getUrl("checkout/cart").'">'.Mage::getSingleton('checkout/session')->getQuote()->getItemsSummaryQty().' <span>item</span></a>';
+				} ?>
+				</span>	
+			</div>
+			<div class="inner-toggle">
+				<?php echo $this->getChildHtml('mycart') ?>
+			</div>
+		</div>
+		<div id="jm-link-mycart" class="has-toggle">
+			<div class="btn-toggle mycart-toggle">
+			<a href="<?php echo Mage::getUrl("checkout/cart")?>">
+				<i class="fa fa-shopping-cart"></i>
+				<span>	
+				<?php if(Mage::getSingleton('checkout/session')->getQuote()->getItemsSummaryQty() > 1) { 
+					echo '<a class="gotocart" href="'.Mage::getUrl("checkout/cart").'">'.Mage::getSingleton('checkout/session')->getQuote()->getItemsSummaryQty().' <span>items</span></a>';
+				} else {
+					echo '<a class="gotocart" href="'.Mage::getUrl("checkout/cart").'">'.Mage::getSingleton('checkout/session')->getQuote()->getItemsSummaryQty().' <span>item</span></a>';
+				} ?>
+				</span>	
+			
+			</a>
+			</div>
+		</div>
+		<!-- END: MY CART -->	
+		<!-- BEGIN: QUICK ACCESS -->
+		<div id="jm-quickaccess" class="quick-access has-toggle">
+			<div class="btn-toggle quickaccess-toggle">
+				<i class="fa fa-user"></i>
+			</div>
+			<div class="inner-toggle">
+				<div class="shop-access">
+					<?php 
+					if($this->getChildHtml('customer_account_navigation')):
+						echo $this->getChildHtml('customer_account_navigation');
+					endif;
+					?>
+					<?php echo $this->getChildHtml('topLinks');  ?>
+				</div>
+			</div>
+		</div>
+		<!-- END: QUICK ACCESS -->
+		
+		<!-- BEGIN: SITE SEARCH -->
+			<div id="jm-search" class="has-toggle">
+				<div class="btn-toggle search-toggle">
+					<i class="fa fa-search"></i>
+				</div>
+				<div class="inner-toggle">
+					<?php echo $this->getChildHtml('jmtoolbarSearch') ?>
+				</div>
+		</div>
+		<!-- END: SITE SEARCH -->
+		<?php /*
+		<!-- BEGIN: QUICK ACCESS -->
+		<div id="jm-setting" class="quick-setting has-toggle">
+			<div class="btn-toggle setting-toggle">
+				<i class="fa fa-globe"></i>
+			</div>
+			<div class="inner-toggle">
+				<?php echo $this->getChildHtml('store_language') ?>
+				<?php echo $this->getChildHtml('custom_currency_selector') ?>
+				<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('colors')->toHtml() ?>
+			</div>
+		</div>
+		<!-- END: QUICK ACCESS --> */?>
+	</div>
+</div>
+<script type="text/javascript">
+
+  jQuery.noConflict();
+/**
+	 * ja tabs plugin
+	 */
+
+	jQuery.cookie = function(name, value, options) {
+		if (typeof value != 'undefined') { // name and value given, set cookie
+			options = options || {};
+			if (value === null) {
+				value = '';
+				options.expires = -1;
+			}
+			var expires = '';
+			if (options.expires && (typeof options.expires == 'number' || options.expires.toUTCString)) {
+				var date;
+				if (typeof options.expires == 'number') {
+					date = new Date();
+					date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000));
+				} else {
+					date = options.expires;
+				}
+				expires = '; expires=' + date.toUTCString(); // use expires attribute, max-age is not supported by IE
+			}
+			// CAUTION: Needed to parenthesize options.path and options.domain
+			// in the following expressions, otherwise they evaluate to undefined
+			// in the packed version for some reason...
+			var path = options.path ? '; path=' + (options.path) : '';
+			var domain = options.domain ? '; domain=' + (options.domain) : '';
+			var secure = options.secure ? '; secure' : '';
+			document.cookie = [name, '=', encodeURIComponent(value), expires, path, domain, secure].join('');
+		} else { // only name given, get cookie
+			var cookieValue = null;
+			if (document.cookie && document.cookie != '') {
+				var cookies = document.cookie.split(';');
+				for (var i = 0; i < cookies.length; i++) {
+					var cookie = jQuery.trim(cookies[i]);
+					// Does this cookie string begin with the name we want?
+					if (cookie.substring(0, name.length + 1) == (name + '=')) {
+						cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+						break;
+					}
+				}
+			}
+			return cookieValue;
+	
+		}
+	};
+
+
+//<![CDATA[
+(function($) {
+	var isMobile = navigator.userAgent.match(/(android|webos|iPhone|iphone|iPod|ipod|iPad|ipad|Android|BlackBerry|iemobile|opera mini)/);
+	var button= $("#jm-quickaccess,#jm-search,#jm-setting,#jm-mycart,#jm-link-mycart")
+	var menu_button= $("#jm-header").find("#jm-mainnav,#jm-sidebar");
+
+	$(document).ready(function(){
+
+		active = $.cookie("jm_classy_color");
+		
+		colorssetting = jQuery("div.colors-setting");
+
+		if(active != undefined){
+	   	  colorssetting.find("a.colors-"+active).addClass("active");
+		}
+
+
+		if (!isMobile){
+			$("#jm-quickaccess,#jm-setting, #jm-mycart, #jm-search").hoverIntent({
+				interval: 0, // milliseconds delay before onMouseOver
+				over: drops_show, 
+				timeout: 130, // milliseconds delay before onMouseOut
+				out: drops_hide
+			});
+		}else{
+			button.find('.btn-toggle').click(function (){
+			    parent= jQuery(this).parent();
+				menu_button.removeClass("active").children().removeClass("active");
+				if (parent.hasClass('active')){
+					parent.removeClass('active');
+					parent.children().removeClass("active");
+					jQuery('#jmoverlay').remove();
+				}else{
+				   	button.not(parent).removeClass('active');
+				   	button.not(parent).children().removeClass("active");
+					parent.addClass('active');
+					parent.children().addClass("active");
+					if (!jQuery('#jmoverlay').length){
+				       jmoverlay = jQuery('<div id="jmoverlay" class="jmoverlay"></div>'); 
+						jmoverlay.appendTo('#jm-wrapper');
+					  jmoverlay.bind("click",function(){
+						 menu_button.removeClass("active").children().removeClass("active");
+						 button.removeClass('active').children().removeClass("active");
+						jQuery(this).remove();
+					});
+				   }
+				}
+			});
+		}
+        $("#jm-quickaccess").children(".btn-toggle").click(function(e){
+			   parent = $(this).parent();	
+              // parent.toggleClass("active");
+               if(parent.hasClass("active")){
+                    
+                   if(window.currentIScrol !== undefined && window.currentIScrol !== null){
+							 window.currentIScrol.destroy();
+							 window.currentIScrol  = null;
+				   }
+				   parentid = parent.attr("id");
+				   iscollwrapperid =  "#"+parentid+"scroll";
+                   wrapperid = parentid+"scroll";
+              
+
+				   if($(iscollwrapperid).length){
+                         
+                          windowheight = $(window).height()-$("#jm-header").height();
+						  windowheight = windowheight - parseInt( parent.children(".inner-toggle").css("padding-top"));
+						  windowheight = windowheight - 35;
+						  if(parent.children(".inner-toggle").height() > windowheight){
+							$(iscollwrapperid).css("height",windowheight);
+						  }
+						  setTimeout(function(){
+
+							  window.currentIScrol = new iScroll(wrapperid,{vScrollbar: true, useTransform: true,hScrollbar: false});	
+						  },100);	
+				   }else{
+                           
+                           quickaccess = parent.children(".inner-toggle").html();
+                           iscollinner = $('<div class="inner-togglecontent" />').append(parent.children(".inner-toggle").html());
+
+							myaccount = $('<div class="inner-togglecontent" />').append($("#jm-quickaccess .inner-toggle").html());
+
+							iscollinner.css({float:"left",height:"auto"});
+							parent.children(".inner-toggle").html("");
+                            
+							iscollwrapper = $('<div id="'+wrapperid+'" />');
+							iscollinner.appendTo(iscollwrapper);
+						   
+							windowheight = $(window).height()-$("#jm-header").height();
+							windowheight = windowheight - parseInt(parent.children(".inner-toggle").css("padding-top"));
+                            windowheight = windowheight - 35;
+							iscollwrapper.appendTo(parent.children(".inner-toggle"));
+						   
+							setTimeout(function(){
+								     
+									  if(parent.children(".inner-toggle").height() > windowheight){
+                                          
+										iscollwrapper.css("height",windowheight);
+										window.currentIScrol = new iScroll(wrapperid,{vScrollbar: true, useTransform: true,hScrollbar: false});
+										 window.currentIScrol.refresh();
+									  }
+
+							},100);
+				   }
+               } 
+			});
+  
+
+	})
+	function drops_show(){ $(this).children().addClass('active'); }
+	function drops_hide(){ $(this).children().removeClass('active'); }
+	
+	
+	menu_button.find(".btn-toggle").click(function (){
+		button.removeClass('active').children().removeClass("active");
+		parentmenu= $(this).parent();
+		if (parentmenu.hasClass('active')){
+			parentmenu.removeClass('active');
+			parentmenu.children().removeClass("active");
+			$('#jmoverlay').remove();
+		}else{
+			parentmenu.siblings().removeClass("active").children().removeClass("active");
+			parentmenu.addClass("active");
+			parentmenu.children().addClass("active");
+			$("#jm-header ul.level0").children("li.haschild.active").removeClass("active").children(".aricon").trigger("click");
+			if (!$('#jmoverlay').length){
+				jmoverlay = $('<div id="jmoverlay" class="jmoverlay"></div>'); 
+				jmoverlay.appendTo('#jm-wrapper');
+				jmoverlay.bind("click",function(){
+					menu_button.removeClass("active").children().removeClass("active");
+					button.removeClass('active').children().removeClass("active");
+					$(this).remove();
+				});
+			}
+		}
+	});
+	
+     $(window).resize(function(){
+            	 
+				 if($("div.inner-toggle.active").length){
+
+                          windowheight = $(window).height()-$("#jm-header").height();
+						  windowheight = windowheight - parseInt( $("div.inner-toggle.active").css("padding-top"));
+						    windowheight = windowheight - 35;
+						  if($("div.inner-toggle.active").height() > windowheight){
+						  	if(window.currentIScrol !== undefined && window.currentIScrol !== null){
+							 window.currentIScrol.destroy();
+							 window.currentIScrol  = null;
+				            }
+							$("div.inner-toggle.active").children().css("height",windowheight);
+							wrapperid = $("div.inner-toggle.active").children().attr("id");
+								setTimeout(function(){
+
+								  window.currentIScrol = new iScroll(wrapperid,{vScrollbar: true, useTransform: true,hScrollbar: false});	
+							  },100);
+						  }
+						  	
+				  }
+            }) 
+
+})(jQuery);
+//]]>
+</script>
